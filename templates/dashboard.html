@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Municipal Dashboard | CivicMind</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f6f9;
+
+            color: #222;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 250px;
+
+            background: #10203d;
+
+            color: white;
+
+            padding: 25px 14px;
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            padding: 0 12px;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+        }
+
+
+        .brand-subtitle {
+
+            padding: 0 12px;
+
+            color: #b4c2d8;
+
+            font-size: 11px;
+
+            margin-bottom: 32px;
+        }
+
+
+        .nav-title {
+
+            padding: 0 11px;
+
+            margin: 20px 0 8px;
+
+            color: #91a3bf;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 4px;
+
+            border-radius: 5px;
+
+            color: #dbe4f1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 500;
+        }
+
+
+        .nav-link:hover {
+
+            background: #1c3154;
+
+            color: white;
+        }
+
+
+        .nav-link.active {
+
+            background: #1554ad;
+
+            color: white;
+        }
+
+
+        .nav-icon {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 30px 32px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .page-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 26px;
+        }
+
+
+        .page-title {
+
+            margin: 0;
+
+            color: #0645a5;
+
+            font-size: 30px;
+
+            font-weight: 700;
+        }
+
+
+        .page-description {
+
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .header-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+        }
+
+
+        .system-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #475569;
+
+            font-size: 13px;
+        }
+
+
+        .status-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #16a34a;
+        }
+
+
+        .new-report {
+
+            display: inline-block;
+
+            padding: 10px 15px;
+
+            background: #1554ad;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 4px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .new-report:hover {
+
+            background: #0645a5;
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            padding: 18px;
+
+            min-height: 115px;
+        }
+
+
+        .stat-card.pending {
+
+            border-left: 4px solid #f59e0b;
+        }
+
+
+        .stat-card.review {
+
+            border-left: 4px solid #2563eb;
+        }
+
+
+        .stat-card.progress {
+
+            border-left: 4px solid #7c3aed;
+        }
+
+
+        .stat-card.completed {
+
+            border-left: 4px solid #16a34a;
+        }
+
+
+        .stat-card.duplicate {
+
+            border-left: 4px solid #f97316;
+        }
+
+
+        .stat-label {
+
+            color: #555;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 9px;
+        }
+
+
+        .stat-value {
+
+            color: #111;
+
+            font-size: 27px;
+
+            font-weight: 700;
+        }
+
+
+        .stat-description {
+
+            margin-top: 7px;
+
+            color: #8a94a3;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.4fr 0.6fr;
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .panel {
+
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            padding: 20px;
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+
+        .panel-title {
+
+            margin: 0;
+
+            color: #222;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .panel-description {
+
+            margin: 5px 0 0;
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+
+        .panel-link {
+
+            color: #1554ad;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .panel-link:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           WORKFLOW
+        ===================================================== */
+
+        .workflow {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .workflow-step {
+
+            flex: 1;
+        }
+
+
+        .workflow-box {
+
+            text-align: center;
+
+            border: 1px solid #d9dee7;
+
+            background: #fafbfc;
+
+            border-radius: 4px;
+
+            padding: 16px 8px;
+        }
+
+
+        .workflow-number {
+
+            color: #1554ad;
+
+            font-size: 25px;
+
+            font-weight: 700;
+        }
+
+
+        .workflow-label {
+
+            margin-top: 5px;
+
+            color: #555;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .workflow-arrow {
+
+            color: #9aa4b2;
+
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           QUICK ACTIONS
+        ===================================================== */
+
+        .actions {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+
+        .action {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 12px;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 4px;
+
+            text-decoration: none;
+
+            color: #222;
+
+            background: white;
+        }
+
+
+        .action:hover {
+
+            background: #f6f9fd;
+
+            border-color: #b8c8df;
+        }
+
+
+        .action-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+
+        .action-icon {
+
+            width: 32px;
+
+            height: 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eaf2ff;
+
+            color: #1554ad;
+
+            border-radius: 4px;
+
+            font-size: 15px;
+        }
+
+
+        .action-name {
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .action-description {
+
+            margin-top: 3px;
+
+            color: #7b8491;
+
+            font-size: 10px;
+        }
+
+
+        .action-arrow {
+
+            color: #8a94a3;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           RECENT REPORTS
+        ===================================================== */
+
+        .recent-panel {
+
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            padding: 20px;
+        }
+
+
+        .table-container {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+
+            padding: 11px 9px;
+
+            text-align: left;
+
+            background: #f5f7fa;
+
+            border-bottom: 1px solid #d9dee7;
+
+            color: #555;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        td {
+
+            padding: 12px 9px;
+
+            border-bottom: 1px solid #edf0f4;
+
+            color: #444;
+
+            font-size: 12px;
+
+            vertical-align: middle;
+        }
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        tbody tr:hover {
+
+            background: #fafcff;
+        }
+
+
+        .report-id {
+
+            color: #1554ad;
+
+            font-weight: 700;
+        }
+
+
+        .issue {
+
+            font-weight: 700;
+
+            color: #333;
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            padding: 5px 8px;
+
+            border-radius: 3px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .status.pending {
+
+            background: #fff4d6;
+
+            color: #a16207;
+        }
+
+
+        .status.review {
+
+            background: #e8f1ff;
+
+            color: #1554ad;
+        }
+
+
+        .status.progress {
+
+            background: #eee8ff;
+
+            color: #6d28d9;
+        }
+
+
+        .status.completed {
+
+            background: #e7f7ed;
+
+            color: #15803d;
+        }
+
+
+        .empty {
+
+            padding: 30px;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                display: none;
+            }
+
+            .main {
+
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .workflow {
+
+                flex-wrap: wrap;
+            }
+
+            .workflow-step {
+
+                min-width: 45%;
+            }
+
+            .workflow-arrow {
+
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+            }
+
+            .header-actions {
+
+                display: none;
+            }
+
+            .page-title {
+
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+        CivicMind
+    </div>
+
+
+    <div class="brand-subtitle">
+        Municipal Intelligence Portal
+    </div>
+
+
+    <div class="nav-title">
+        Overview
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="nav-link active"
+    >
+
+        <span class="nav-icon">▦</span>
+
+        Overview
+
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_map') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">⌖</span>
+
+        Issue Map
+
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_reports') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">▤</span>
+
+        Reports
+
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_analytics') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">◫</span>
+
+        Analytics
+
+    </a>
+
+
+    <div class="nav-title">
+        Actions
+    </div>
+
+
+    <a
+        href="{{ url_for('report') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">＋</span>
+
+        New Report
+
+    </a>
+
+
+    <a
+        href="/"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">↗</span>
+
+        Public Website
+
+    </a>
+
+
+    <a
+        href="{{ url_for('logout') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">⇥</span>
+
+        Logout
+
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+
+        <div>
+
+            <h1 class="page-title">
+                Municipal Overview
+            </h1>
+
+            <p class="page-description">
+                Monitor civic complaints, response activity and current workload
+            </p>
+
+        </div>
+
+
+        <div class="header-actions">
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                System active
+
+            </div>
+
+
+            <a
+                href="{{ url_for('report') }}"
+                class="new-report"
+            >
+
+                + New Report
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Total Reports
+            </div>
+
+            <div class="stat-value">
+                {{ total }}
+            </div>
+
+            <div class="stat-description">
+                All submitted complaints
+            </div>
+
+        </div>
+
+
+        <div class="stat-card pending">
+
+            <div class="stat-label">
+                Pending
+            </div>
+
+            <div class="stat-value">
+                {{ pending }}
+            </div>
+
+            <div class="stat-description">
+                Awaiting municipal review
+            </div>
+
+        </div>
+
+
+        <div class="stat-card review">
+
+            <div class="stat-label">
+                Under Review
+            </div>
+
+            <div class="stat-value">
+                {{ under_review }}
+            </div>
+
+            <div class="stat-description">
+                Currently being assessed
+            </div>
+
+        </div>
+
+
+        <div class="stat-card progress">
+
+            <div class="stat-label">
+                In Progress
+            </div>
+
+            <div class="stat-value">
+                {{ in_progress }}
+            </div>
+
+            <div class="stat-description">
+                Work currently underway
+            </div>
+
+        </div>
+
+
+        <div class="stat-card completed">
+
+            <div class="stat-label">
+                Work Completed
+            </div>
+
+            <div class="stat-value">
+                {{ work_completed }}
+            </div>
+
+            <div class="stat-description">
+                Completed municipal work
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         WORKFLOW + QUICK ACCESS
+    ================================================== -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- WORKFLOW -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2 class="panel-title">
+                        Complaint Workflow
+                    </h2>
+
+                    <p class="panel-description">
+                        Current distribution across the response process
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="workflow">
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-box">
+
+                        <div class="workflow-number">
+                            {{ pending }}
+                        </div>
+
+                        <div class="workflow-label">
+                            Pending
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="workflow-arrow">
+                    →
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-box">
+
+                        <div class="workflow-number">
+                            {{ under_review }}
+                        </div>
+
+                        <div class="workflow-label">
+                            Under Review
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="workflow-arrow">
+                    →
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-box">
+
+                        <div class="workflow-number">
+                            {{ in_progress }}
+                        </div>
+
+                        <div class="workflow-label">
+                            In Progress
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="workflow-arrow">
+                    →
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-box">
+
+                        <div class="workflow-number">
+                            {{ work_completed }}
+                        </div>
+
+                        <div class="workflow-label">
+                            Work Completed
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- QUICK ACCESS -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2 class="panel-title">
+                        Quick Access
+                    </h2>
+
+                    <p class="panel-description">
+                        Municipal tools
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+
+                <a
+                    href="{{ url_for('dashboard_reports') }}"
+                    class="action"
+                >
+
+                    <div class="action-left">
+
+                        <div class="action-icon">
+                            ▤
+                        </div>
+
+                        <div>
+
+                            <div class="action-name">
+                                Review Reports
+                            </div>
+
+                            <div class="action-description">
+                                Complaints and AI results
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('dashboard_map') }}"
+                    class="action"
+                >
+
+                    <div class="action-left">
+
+                        <div class="action-icon">
+                            ⌖
+                        </div>
+
+                        <div>
+
+                            <div class="action-name">
+                                Issue Map
+                            </div>
+
+                            <div class="action-description">
+                                Locations and hotspots
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('dashboard_analytics') }}"
+                    class="action"
+                >
+
+                    <div class="action-left">
+
+                        <div class="action-icon">
+                            ◫
+                        </div>
+
+                        <div>
+
+                            <div class="action-name">
+                                Analytics
+                            </div>
+
+                            <div class="action-description">
+                                Complaint statistics
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         RECENT REPORTS
+    ================================================== -->
+
+    <section class="recent-panel">
+
+
+        <div class="panel-header">
+
+
+            <div>
+
+                <h2 class="panel-title">
+                    Recent Reports
+                </h2>
+
+                <p class="panel-description">
+                    Latest complaints submitted to CivicMind
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('dashboard_reports') }}"
+                class="panel-link"
+            >
+
+                View all reports →
+
+            </a>
+
+
+        </div>
+
+
+
+        {% if reports %}
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Issue
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Reporter
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for report in reports[:6] %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            <span class="report-id">
+                                #{{ report["id"] }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="issue">
+                                {{ report["issue"] }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            {{ report["location"] }}
+                        </td>
+
+
+                        <td>
+                            {{ report["name"] }}
+                        </td>
+
+
+                        <td>
+
+
+                            {% if report["status"] == "Pending" %}
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+
+                            {% elif report["status"] == "Under Review" %}
+
+                                <span class="status review">
+                                    Under Review
+                                </span>
+
+
+                            {% elif report["status"] == "In Progress" %}
+
+                                <span class="status progress">
+                                    In Progress
+                                </span>
+
+
+                            {% elif report["status"] == "Work Completed" %}
+
+                                <span class="status completed">
+                                    Work Completed
+                                </span>
+
+
+                            {% else %}
+
+                                <span class="status">
+                                    {{ report["status"] }}
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty">
+            No reports have been submitted yet.
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+</main>
+
+
+</body>
+
+</html>

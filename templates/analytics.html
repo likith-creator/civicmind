@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Analytics | CivicMind</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 250px;
+
+            background: #10203d;
+            color: white;
+
+            padding: 25px 14px;
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+            padding: 0 12px;
+
+            font-size: 24px;
+            font-weight: 700;
+
+            margin-bottom: 4px;
+        }
+
+
+        .brand-subtitle {
+            padding: 0 12px;
+
+            color: #b4c2d8;
+
+            font-size: 11px;
+
+            margin-bottom: 32px;
+        }
+
+
+        .nav-title {
+            padding: 0 11px;
+
+            margin: 20px 0 8px;
+
+            color: #91a3bf;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-link {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 4px;
+
+            border-radius: 5px;
+
+            color: #dbe4f1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 500;
+        }
+
+
+        .nav-link:hover {
+            background: #1c3154;
+            color: white;
+        }
+
+
+        .nav-link.active {
+            background: #1554ad;
+            color: white;
+        }
+
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 30px 32px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .page-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 26px;
+        }
+
+
+        .page-title {
+            margin: 0;
+
+            color: #0645a5;
+
+            font-size: 30px;
+
+            font-weight: 700;
+        }
+
+
+        .page-description {
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .back-link {
+            color: #1554ad;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           SUMMARY
+        ===================================================== */
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .summary-card {
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            padding: 18px;
+
+            min-height: 115px;
+        }
+
+
+        .summary-card.confidence {
+            border-left: 4px solid #2563eb;
+        }
+
+
+        .summary-card.severity {
+            border-left: 4px solid #f97316;
+        }
+
+
+        .summary-card.completion {
+            border-left: 4px solid #16a34a;
+        }
+
+
+        .summary-label {
+            color: #555;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 9px;
+        }
+
+
+        .summary-value {
+            color: #111;
+
+            font-size: 27px;
+
+            font-weight: 700;
+        }
+
+
+        .summary-note {
+            margin-top: 7px;
+
+            color: #8a94a3;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           CHART GRID
+        ===================================================== */
+
+        .chart-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .panel {
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            padding: 20px;
+        }
+
+
+        .panel-header {
+            margin-bottom: 15px;
+        }
+
+
+        .panel-title {
+            margin: 0;
+
+            color: #222;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .panel-description {
+            margin: 5px 0 0;
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+
+        .chart-container {
+            position: relative;
+
+            height: 280px;
+        }
+
+
+        /* =====================================================
+           INSIGHTS
+        ===================================================== */
+
+        .insight-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .insight-card {
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            padding: 18px;
+        }
+
+
+        .insight-label {
+            color: #555;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .insight-value {
+            color: #1554ad;
+
+            font-size: 24px;
+
+            font-weight: 700;
+        }
+
+
+        .insight-description {
+            margin-top: 7px;
+
+            color: #777;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        CivicMind
+    </div>
+
+    <div class="brand-subtitle">
+        Municipal Intelligence Portal
+    </div>
+
+
+    <div class="nav-title">
+        Overview
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="nav-link"
+    >
+        <span class="nav-icon">▦</span>
+        Overview
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_map') }}"
+        class="nav-link"
+    >
+        <span class="nav-icon">⌖</span>
+        Issue Map
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_reports') }}"
+        class="nav-link"
+    >
+        <span class="nav-icon">▤</span>
+        Reports
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_analytics') }}"
+        class="nav-link active"
+    >
+        <span class="nav-icon">◫</span>
+        Analytics
+    </a>
+
+
+    <div class="nav-title">
+        Actions
+    </div>
+
+
+    <a
+        href="{{ url_for('report') }}"
+        class="nav-link"
+    >
+        <span class="nav-icon">＋</span>
+        New Report
+    </a>
+
+
+    <a
+        href="/"
+        class="nav-link"
+    >
+        <span class="nav-icon">↗</span>
+        Public Website
+    </a>
+
+
+    <a
+        href="{{ url_for('logout') }}"
+        class="nav-link"
+    >
+        <span class="nav-icon">⇥</span>
+        Logout
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">
+                Civic Analytics
+            </h1>
+
+            <p class="page-description">
+                Overview of reported issues, AI analysis and municipal response
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back-link"
+        >
+            ← Overview
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         SUMMARY CARDS
+    ================================================== -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Total Reports
+            </div>
+
+            <div class="summary-value">
+                {{ total }}
+            </div>
+
+            <div class="summary-note">
+                All submitted civic complaints
+            </div>
+
+        </div>
+
+
+        <div class="summary-card confidence">
+
+            <div class="summary-label">
+                Average AI Confidence
+            </div>
+
+            <div class="summary-value">
+                {{ average_confidence }}%
+            </div>
+
+            <div class="summary-note">
+                Average detection confidence
+            </div>
+
+        </div>
+
+
+        <div class="summary-card severity">
+
+            <div class="summary-label">
+                Average Severity
+            </div>
+
+            <div class="summary-value">
+                {{ average_severity }}/10
+            </div>
+
+            <div class="summary-note">
+                Across analysed reports
+            </div>
+
+        </div>
+
+
+        <div class="summary-card completion">
+
+            <div class="summary-label">
+                Completion Rate
+            </div>
+
+            <div class="summary-value">
+                {{ completion_rate }}%
+            </div>
+
+            <div class="summary-note">
+                Reports marked work completed
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         CHARTS
+    ================================================== -->
+
+    <div class="chart-grid">
+
+
+        <!-- ISSUE DISTRIBUTION -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2 class="panel-title">
+                    Issue Distribution
+                </h2>
+
+                <p class="panel-description">
+                    Reported civic issue categories
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="issueChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- WORKFLOW STATUS -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2 class="panel-title">
+                    Workflow Status
+                </h2>
+
+                <p class="panel-description">
+                    Current state of submitted reports
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="statusChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SEVERITY -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2 class="panel-title">
+                    Severity Distribution
+                </h2>
+
+                <p class="panel-description">
+                    AI-derived severity levels
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="severityChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DUPLICATES -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2 class="panel-title">
+                    Complaint Quality
+                </h2>
+
+                <p class="panel-description">
+                    Duplicate complaint detection
+                </p>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="duplicateChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         INSIGHTS
+    ================================================== -->
+
+    <div class="insight-grid">
+
+
+        <div class="insight-card">
+
+            <div class="insight-label">
+                Critical Reports
+            </div>
+
+            <div class="insight-value">
+                {{ critical }}
+            </div>
+
+            <div class="insight-description">
+                Reports classified as critical according
+                to the CivicMind severity calculation.
+            </div>
+
+        </div>
+
+
+        <div class="insight-card">
+
+            <div class="insight-label">
+                Potential Duplicates
+            </div>
+
+            <div class="insight-value">
+                {{ duplicates }}
+            </div>
+
+            <div class="insight-description">
+                Complaints identified as potentially
+                related to earlier reports.
+            </div>
+
+        </div>
+
+
+        <div class="insight-card">
+
+            <div class="insight-label">
+                Active Work
+            </div>
+
+            <div class="insight-value">
+                {{ in_progress }}
+            </div>
+
+            <div class="insight-description">
+                Reports currently marked as
+                work in progress.
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+
+/* =====================================================
+   COMMON SETTINGS
+===================================================== */
+
+const chartFont = {
+    family: "Arial, sans-serif",
+    size: 11
+};
+
+
+const gridColor = "#e1e5eb";
+
+
+
+/* =====================================================
+   ISSUE DISTRIBUTION
+===================================================== */
+
+new Chart(
+
+    document.getElementById("issueChart"),
+
+    {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Potholes",
+                "Garbage"
+            ],
+
+            datasets: [{
+
+                data:
+                    {{ [potholes, garbage] | tojson }},
+
+                backgroundColor: [
+                    "#1554ad",
+                    "#16a34a"
+                ],
+
+                borderColor: "#ffffff",
+
+                borderWidth: 2
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: "60%",
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        usePointStyle: true,
+
+                        pointStyle: "circle",
+
+                        padding: 18,
+
+                        color: "#555",
+
+                        font: chartFont
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+
+
+/* =====================================================
+   WORKFLOW STATUS
+===================================================== */
+
+new Chart(
+
+    document.getElementById("statusChart"),
+
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Pending",
+                "Under Review",
+                "In Progress",
+                "Completed"
+            ],
+
+            datasets: [{
+
+                data:
+                    {{ [
+                        pending,
+                        under_review,
+                        in_progress,
+                        work_completed
+                    ] | tojson }},
+
+                backgroundColor: [
+                    "#f59e0b",
+                    "#2563eb",
+                    "#7c3aed",
+                    "#16a34a"
+                ],
+
+                borderRadius: 3,
+
+                borderSkipped: false
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    grid: {
+                        display: false
+                    },
+
+                    ticks: {
+
+                        color: "#555",
+
+                        font: chartFont
+
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0,
+
+                        color: "#555",
+
+                        font: chartFont
+
+                    },
+
+                    grid: {
+
+                        color: gridColor
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+
+
+/* =====================================================
+   SEVERITY
+===================================================== */
+
+new Chart(
+
+    document.getElementById("severityChart"),
+
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Critical",
+                "High",
+                "Medium",
+                "Low"
+            ],
+
+            datasets: [{
+
+                data:
+                    {{ [
+                        critical,
+                        high,
+                        medium,
+                        low
+                    ] | tojson }},
+
+                backgroundColor: [
+                    "#dc2626",
+                    "#f97316",
+                    "#eab308",
+                    "#16a34a"
+                ],
+
+                borderRadius: 3,
+
+                borderSkipped: false
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    grid: {
+                        display: false
+                    },
+
+                    ticks: {
+
+                        color: "#555",
+
+                        font: chartFont
+
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0,
+
+                        color: "#555",
+
+                        font: chartFont
+
+                    },
+
+                    grid: {
+
+                        color: gridColor
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+
+
+/* =====================================================
+   DUPLICATE ANALYSIS
+===================================================== */
+
+new Chart(
+
+    document.getElementById("duplicateChart"),
+
+    {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Unique Reports",
+                "Potential Duplicates"
+            ],
+
+            datasets: [{
+
+                data:
+                    {{ [
+                        total - duplicates,
+                        duplicates
+                    ] | tojson }},
+
+                backgroundColor: [
+                    "#1554ad",
+                    "#f97316"
+                ],
+
+                borderColor: "#ffffff",
+
+                borderWidth: 2
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: "60%",
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        usePointStyle: true,
+
+                        pointStyle: "circle",
+
+                        padding: 18,
+
+                        color: "#555",
+
+                        font: chartFont
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

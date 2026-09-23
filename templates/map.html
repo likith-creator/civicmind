@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Issue Map | CivicMind</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f6f9;
+
+            color: #222;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 250px;
+
+            background: #10203d;
+
+            color: white;
+
+            padding: 25px 14px;
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            padding: 0 12px;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+        }
+
+
+        .brand-subtitle {
+
+            padding: 0 12px;
+
+            color: #b4c2d8;
+
+            font-size: 11px;
+
+            margin-bottom: 32px;
+        }
+
+
+        .nav-title {
+
+            padding: 0 11px;
+
+            margin: 20px 0 8px;
+
+            color: #91a3bf;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 4px;
+
+            border-radius: 5px;
+
+            color: #dbe4f1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 500;
+        }
+
+
+        .nav-link:hover {
+
+            background: #1c3154;
+
+            color: white;
+        }
+
+
+        .nav-link.active {
+
+            background: #1554ad;
+
+            color: white;
+        }
+
+
+        .nav-icon {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 30px 32px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .page-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 22px;
+        }
+
+
+        .page-title {
+
+            margin: 0;
+
+            color: #0645a5;
+
+            font-size: 30px;
+
+            font-weight: 700;
+        }
+
+
+        .page-description {
+
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .back-link {
+
+            color: #1554ad;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           MAP PANEL
+        ===================================================== */
+
+        .map-panel {
+
+            background: white;
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 5px;
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           FILTER BAR
+        ===================================================== */
+
+        .filter-bar {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            padding: 16px 18px;
+
+            border-bottom: 1px solid #d9dee7;
+
+            background: white;
+        }
+
+
+        .filter-label {
+
+            color: #333;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-right: 2px;
+        }
+
+
+        .filter-select {
+
+            height: 38px;
+
+            min-width: 145px;
+
+            padding: 0 10px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 4px;
+
+            background: white;
+
+            color: #333;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            outline: none;
+        }
+
+
+        .filter-select:focus {
+
+            border-color: #1554ad;
+        }
+
+
+        .hotspot-button {
+
+            height: 38px;
+
+            padding: 0 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 4px;
+
+            background: white;
+
+            color: #333;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .hotspot-button:hover {
+
+            background: #f5f8fc;
+        }
+
+
+        .hotspot-button.active {
+
+            background: #eaf2ff;
+
+            border-color: #8db4ec;
+
+            color: #1554ad;
+        }
+
+
+        /* =====================================================
+           MAP AREA
+        ===================================================== */
+
+        .map-container {
+
+            position: relative;
+
+            height: 650px;
+        }
+
+
+        #map {
+
+            width: 100%;
+
+            height: 100%;
+        }
+
+
+        /* =====================================================
+           MAP INFORMATION PANEL
+        ===================================================== */
+
+        .map-info {
+
+            position: absolute;
+
+            right: 18px;
+
+            top: 18px;
+
+            width: 240px;
+
+            z-index: 500;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border: 1px solid #d9dee7;
+
+            border-radius: 4px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .map-info-header {
+
+            padding: 13px 14px;
+
+            border-bottom: 1px solid #e1e5eb;
+        }
+
+
+        .map-info-title {
+
+            color: #222;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .map-info-subtitle {
+
+            margin-top: 3px;
+
+            color: #777;
+
+            font-size: 10px;
+        }
+
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+        }
+
+
+        .info-item {
+
+            padding: 12px 14px;
+
+            border-bottom: 1px solid #edf0f4;
+        }
+
+
+        .info-item:nth-child(odd) {
+
+            border-right: 1px solid #edf0f4;
+        }
+
+
+        .info-label {
+
+            color: #777;
+
+            font-size: 10px;
+        }
+
+
+        .info-value {
+
+            margin-top: 4px;
+
+            color: #222;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .info-footer {
+
+            padding: 10px 14px;
+
+            background: #f7f9fb;
+
+            color: #777;
+
+            font-size: 10px;
+
+            line-height: 1.4;
+        }
+
+
+        /* =====================================================
+           LEGEND
+        ===================================================== */
+
+        .legend {
+
+            display: flex;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 17px;
+
+            padding: 12px 18px;
+
+            border-top: 1px solid #d9dee7;
+
+            background: white;
+        }
+
+
+        .legend-title {
+
+            color: #555;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .legend-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: #555;
+
+            font-size: 11px;
+        }
+
+
+        .legend-dot {
+
+            width: 9px;
+
+            height: 9px;
+
+            border-radius: 50%;
+        }
+
+
+        .pending {
+            background: #f59e0b;
+        }
+
+
+        .review {
+            background: #2563eb;
+        }
+
+
+        .progress {
+            background: #7c3aed;
+        }
+
+
+        .completed {
+            background: #16a34a;
+        }
+
+
+        .heat-label {
+
+            margin-left: auto;
+
+            color: #777;
+
+            font-size: 10px;
+        }
+
+
+        .heat-gradient {
+
+            width: 70px;
+
+            height: 7px;
+
+            border-radius: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #3b82f6,
+                    #22c55e,
+                    #facc15,
+                    #f97316,
+                    #ef4444
+                );
+        }
+
+
+        /* =====================================================
+           POPUP
+        ===================================================== */
+
+        .leaflet-popup-content-wrapper {
+
+            border-radius: 4px;
+        }
+
+
+        .leaflet-popup-content {
+
+            margin: 14px;
+
+            width: 240px !important;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        .popup-title {
+
+            color: #0645a5;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            margin-bottom: 2px;
+        }
+
+
+        .popup-id {
+
+            color: #777;
+
+            font-size: 10px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .popup-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            padding: 6px 0;
+
+            border-bottom: 1px solid #edf0f4;
+        }
+
+
+        .popup-label {
+
+            color: #777;
+
+            font-size: 11px;
+        }
+
+
+        .popup-value {
+
+            color: #222;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-align: right;
+        }
+
+
+        .popup-location {
+
+            margin-top: 10px;
+
+            color: #555;
+
+            font-size: 10px;
+
+            line-height: 1.4;
+        }
+
+
+        .popup-status {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 4px 7px;
+
+            border-radius: 3px;
+
+            background: #eaf2ff;
+
+            color: #1554ad;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .map-info {
+
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                display: none;
+            }
+
+            .main {
+
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .filter-bar {
+
+                align-items: stretch;
+            }
+
+            .filter-select {
+
+                flex: 1;
+
+                min-width: 130px;
+            }
+
+            .map-container {
+
+                height: 600px;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .page-title {
+
+                font-size: 25px;
+            }
+
+            .page-header {
+
+                align-items: flex-start;
+            }
+
+            .back-link {
+
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+        CivicMind
+    </div>
+
+
+    <div class="brand-subtitle">
+        Municipal Intelligence Portal
+    </div>
+
+
+    <div class="nav-title">
+        Overview
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">▦</span>
+
+        Overview
+
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_map') }}"
+        class="nav-link active"
+    >
+
+        <span class="nav-icon">⌖</span>
+
+        Issue Map
+
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_reports') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">▤</span>
+
+        Reports
+
+    </a>
+
+
+    <a
+        href="{{ url_for('dashboard_analytics') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">◫</span>
+
+        Analytics
+
+    </a>
+
+
+    <div class="nav-title">
+        Actions
+    </div>
+
+
+    <a
+        href="{{ url_for('report') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">＋</span>
+
+        New Report
+
+    </a>
+
+
+    <a
+        href="/"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">↗</span>
+
+        Public Website
+
+    </a>
+
+
+    <a
+        href="{{ url_for('logout') }}"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">⇥</span>
+
+        Logout
+
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">
+                Issue Map
+            </h1>
+
+            <p class="page-description">
+                Geographic view of reported civic issues and hotspots
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back-link"
+        >
+
+            ← Overview
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MAP
+    ================================================== -->
+
+    <section class="map-panel">
+
+
+        <!-- FILTERS -->
+
+        <div class="filter-bar">
+
+            <span class="filter-label">
+                Filter:
+            </span>
+
+
+            <select
+                id="issueFilter"
+                class="filter-select"
+            >
+
+                <option value="all">
+                    All Issues
+                </option>
+
+                <option value="Pothole">
+                    Pothole
+                </option>
+
+                <option value="Garbage">
+                    Garbage
+                </option>
+
+            </select>
+
+
+            <select
+                id="statusFilter"
+                class="filter-select"
+            >
+
+                <option value="all">
+                    All Statuses
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Under Review">
+                    Under Review
+                </option>
+
+                <option value="In Progress">
+                    In Progress
+                </option>
+
+                <option value="Work Completed">
+                    Work Completed
+                </option>
+
+            </select>
+
+
+            <select
+                id="severityFilter"
+                class="filter-select"
+            >
+
+                <option value="all">
+                    All Severity Levels
+                </option>
+
+                <option value="Critical">
+                    Critical
+                </option>
+
+                <option value="High">
+                    High
+                </option>
+
+                <option value="Medium">
+                    Medium
+                </option>
+
+                <option value="Low">
+                    Low
+                </option>
+
+            </select>
+
+
+            <button
+                id="hotspotToggle"
+                class="hotspot-button active"
+            >
+
+                Hotspots: On
+
+            </button>
+
+        </div>
+
+
+
+        <!-- MAP -->
+
+        <div class="map-container">
+
+
+            <div id="map"></div>
+
+
+            <!-- MAP INFO -->
+
+            <div class="map-info">
+
+
+                <div class="map-info-header">
+
+                    <div class="map-info-title">
+                        Map Information
+                    </div>
+
+                    <div class="map-info-subtitle">
+                        Current filtered view
+                    </div>
+
+                </div>
+
+
+                <div class="info-grid">
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Visible Reports
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="visibleReports"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Hotspots
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="visibleHotspots"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Highest Severity
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="highestSeverity"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Avg. Confidence
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="averageConfidence"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="info-footer">
+
+                    Hotspots indicate areas with
+                    concentrated complaint activity.
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- LEGEND -->
+
+        <div class="legend">
+
+
+            <span class="legend-title">
+                Status
+            </span>
+
+
+            <div class="legend-item">
+
+                <span class="legend-dot pending"></span>
+
+                Pending
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="legend-dot review"></span>
+
+                Under Review
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="legend-dot progress"></span>
+
+                In Progress
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="legend-dot completed"></span>
+
+                Work Completed
+
+            </div>
+
+
+            <span class="heat-label">
+                Low activity
+            </span>
+
+
+            <div class="heat-gradient"></div>
+
+
+            <span class="heat-label">
+                High activity
+            </span>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     LEAFLET
+===================================================== -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+
+<script>
+
+
+/* =====================================================
+   REPORT DATA
+===================================================== */
+
+const reports = [
+
+    {% for report in reports %}
+
+    {
+
+        id:
+            {{ report["id"] }},
+
+        issue:
+            {{ report["issue"]|tojson }},
+
+        location:
+            {{ report["location"]|tojson }},
+
+latitude: Number(
+    {{ report["latitude"] if report["latitude"] is not none else "null" }}
+),
+
+longitude: Number(
+    {{ report["longitude"] if report["longitude"] is not none else "null" }}
+),
+        status:
+            {{ report["status"]|tojson }},
+
+        severity:
+            {{ report["severity_level"]|tojson }},
+
+        severityScore:
+            {{ report["severity_score"] if report["severity_score"] is not none else 0 }},
+
+        confidence:
+            {{ report["confidence"] if report["confidence"] is not none else 0 }},
+
+        detectedIssue:
+            {{ report["detected_issue"]|tojson }},
+
+        reporter:
+            {{ report["name"]|tojson }}
+
+    },
+
+    {% endfor %}
+
+];
+
+
+
+/* =====================================================
+   MAP
+===================================================== */
+
+const map = L.map("map");
+
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution:
+            "&copy; OpenStreetMap contributors",
+
+        maxZoom: 19
+    }
+).addTo(map);
+
+
+
+/* =====================================================
+   INITIAL VIEW
+===================================================== */
+
+const validReports = reports.filter(report => {
+    return (
+        Number.isFinite(report.latitude) &&
+        Number.isFinite(report.longitude) &&
+        report.latitude >= -90 &&
+        report.latitude <= 90 &&
+        report.longitude >= -180 &&
+        report.longitude <= 180
+    );
+});
+
+
+if (validReports.length > 0) {
+
+    map.setView(
+        [
+            validReports[0].latitude,
+            validReports[0].longitude
+        ],
+        14
+    );
+
+} else {
+
+    map.setView(
+        [17.3850, 78.4867],
+        12
+    );
+
+}
+
+
+
+/* =====================================================
+   LAYERS
+===================================================== */
+
+let markers = [];
+
+let heatLayer = null;
+
+let hotspotsEnabled = true;
+
+
+
+/* =====================================================
+   MARKER COLOR
+===================================================== */
+
+function getMarkerColor(status) {
+
+    if (status === "Pending") {
+        return "#f59e0b";
+    }
+
+    if (status === "Under Review") {
+        return "#2563eb";
+    }
+
+    if (status === "In Progress") {
+        return "#7c3aed";
+    }
+
+    if (status === "Work Completed") {
+        return "#16a34a";
+    }
+
+    return "#64748b";
+}
+
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+function normalizeValue(value) {
+    return String(value || "").trim().toLowerCase();
+}
+
+function getFilteredReports() {
+
+    const issue =
+        normalizeValue(
+            document.getElementById("issueFilter").value
+        );
+
+    const status =
+        normalizeValue(
+            document.getElementById("statusFilter").value
+        );
+
+    const severity =
+        normalizeValue(
+            document.getElementById("severityFilter").value
+        );
+
+    return validReports.filter(report => {
+
+        if (
+            issue !== "all" &&
+            normalizeValue(report.issue) !== issue
+        ) {
+            return false;
+        }
+
+        if (
+            status !== "all" &&
+            normalizeValue(report.status) !== status
+        ) {
+            return false;
+        }
+
+        if (
+            severity !== "all" &&
+            normalizeValue(report.severity) !== severity
+        ) {
+            return false;
+        }
+
+        return true;
+    });
+}
+
+
+/* =====================================================
+   MARKER
+===================================================== */
+
+function createMarker(report) {
+
+    const color =
+        getMarkerColor(
+            report.status
+        );
+
+
+    const marker =
+        L.circleMarker(
+
+            [
+                report.latitude,
+                report.longitude
+            ],
+
+            {
+
+                radius: 8,
+
+                fillColor: color,
+
+                color: "#ffffff",
+
+                weight: 2,
+
+                opacity: 1,
+
+                fillOpacity: 0.95
+
+            }
+
+        );
+
+
+    const confidence =
+        report.confidence
+            ? (
+                report.confidence * 100
+            ).toFixed(1) + "%"
+            : "N/A";
+
+
+    const score =
+        Number(
+            report.severityScore || 0
+        ).toFixed(1);
+
+
+    marker.bindPopup(`
+
+        <div>
+
+            <div class="popup-title">
+                ${report.issue}
+            </div>
+
+            <div class="popup-id">
+                Report #${report.id}
+            </div>
+
+
+            <div class="popup-row">
+
+                <span class="popup-label">
+                    Status
+                </span>
+
+                <span class="popup-value">
+                    ${report.status}
+                </span>
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <span class="popup-label">
+                    AI Detection
+                </span>
+
+                <span class="popup-value">
+                    ${report.detectedIssue || "N/A"}
+                </span>
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <span class="popup-label">
+                    Confidence
+                </span>
+
+                <span class="popup-value">
+                    ${confidence}
+                </span>
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <span class="popup-label">
+                    Severity
+                </span>
+
+                <span class="popup-value">
+                    ${report.severity || "N/A"}
+                    (${score}/10)
+                </span>
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <span class="popup-label">
+                    Reporter
+                </span>
+
+                <span class="popup-value">
+                    ${report.reporter}
+                </span>
+
+            </div>
+
+
+            <div class="popup-location">
+
+                Location:<br>
+
+                ${report.location}
+
+            </div>
+
+
+            <div class="popup-status">
+
+                ${report.status}
+
+            </div>
+
+        </div>
+
+    `);
+
+
+    return marker;
+
+}
+
+
+
+/* =====================================================
+   RENDER MARKERS
+===================================================== */
+
+function renderMarkers() {
+
+
+    markers.forEach(
+        marker =>
+            map.removeLayer(marker)
+    );
+
+
+    markers = [];
+
+
+    const filtered =
+        getFilteredReports();
+
+
+    filtered.forEach(
+        report => {
+
+            const marker =
+                createMarker(report);
+
+
+            marker.addTo(map);
+
+
+            markers.push(marker);
+
+        }
+    );
+
+
+    document
+        .getElementById("visibleReports")
+        .innerText =
+            filtered.length;
+
+
+    updateIntelligence(filtered);
+
+}
+
+
+
+/* =====================================================
+   HOTSPOTS
+===================================================== */
+
+function renderHotspots() {
+
+
+    if (heatLayer) {
+
+        map.removeLayer(
+            heatLayer
+        );
+
+        heatLayer = null;
+
+    }
+
+
+    const filtered =
+        getFilteredReports();
+
+
+    if (!hotspotsEnabled) {
+
+        document
+            .getElementById("visibleHotspots")
+            .innerText =
+                "Off";
+
+        return;
+
+    }
+
+
+    const heatPoints =
+        filtered.map(
+            report => [
+
+                report.latitude,
+
+                report.longitude,
+
+                0.45
+
+            ]
+        );
+
+
+    if (heatPoints.length > 0) {
+
+        heatLayer =
+            L.heatLayer(
+
+                heatPoints,
+
+                {
+
+                    radius: 28,
+
+                    blur: 22,
+
+                    maxZoom: 17,
+
+                    max: 1.0,
+
+                    minOpacity: 0.18
+
+                }
+
+            ).addTo(map);
+
+    }
+
+
+    let hotspotCount = 0;
+
+
+    filtered.forEach(
+        report => {
+
+
+            let nearby = 0;
+
+
+            filtered.forEach(
+                other => {
+
+
+                    if (
+                        report.id === other.id
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const distance =
+                        calculateDistance(
+
+                            report.latitude,
+                            report.longitude,
+
+                            other.latitude,
+                            other.longitude
+
+                        );
+
+
+                    if (
+                        distance <= 250
+                    ) {
+
+                        nearby++;
+
+                    }
+
+                }
+            );
+
+
+            if (nearby >= 1) {
+
+                hotspotCount++;
+
+            }
+
+        }
+    );
+
+
+    hotspotCount =
+        Math.ceil(
+            hotspotCount / 2
+        );
+
+
+    document
+        .getElementById("visibleHotspots")
+        .innerText =
+            hotspotCount;
+
+}
+
+
+
+/* =====================================================
+   DISTANCE
+===================================================== */
+
+function calculateDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
+
+    const R = 6371000;
+
+
+    const p1 =
+        lat1 *
+        Math.PI /
+        180;
+
+
+    const p2 =
+        lat2 *
+        Math.PI /
+        180;
+
+
+    const dLat =
+        (lat2 - lat1) *
+        Math.PI /
+        180;
+
+
+    const dLon =
+        (lon2 - lon1) *
+        Math.PI /
+        180;
+
+
+    const a =
+
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2)
+
+        +
+
+        Math.cos(p1) *
+        Math.cos(p2) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+
+    const c =
+
+        2 *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        );
+
+
+    return R * c;
+
+}
+
+
+
+/* =====================================================
+   INTELLIGENCE
+===================================================== */
+
+function updateIntelligence(
+    filtered
+) {
+
+
+    const order = {
+
+        "Critical": 4,
+
+        "High": 3,
+
+        "Medium": 2,
+
+        "Low": 1
+
+    };
+
+
+    let highest = "—";
+
+
+    filtered.forEach(
+        report => {
+
+
+            if (
+                highest === "—"
+                ||
+                (
+                    order[report.severity] || 0
+                )
+                >
+                (
+                    order[highest] || 0
+                )
+            ) {
+
+                highest =
+                    report.severity ||
+                    "—";
+
+            }
+
+        }
+    );
+
+
+    document
+        .getElementById("highestSeverity")
+        .innerText =
+            highest;
+
+
+    if (filtered.length > 0) {
+
+
+        const average =
+
+            filtered.reduce(
+                (
+                    total,
+                    report
+                ) => {
+
+                    return total +
+                        Number(
+                            report.confidence || 0
+                        );
+
+                },
+                0
+            )
+            /
+            filtered.length;
+
+
+        document
+            .getElementById(
+                "averageConfidence"
+            )
+            .innerText =
+                (
+                    average * 100
+                ).toFixed(1) + "%";
+
+
+    } else {
+
+
+        document
+            .getElementById(
+                "averageConfidence"
+            )
+            .innerText =
+                "—";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILTER EVENTS
+===================================================== */
+
+document
+    .getElementById("issueFilter")
+    .addEventListener(
+        "change",
+        function() {
+
+            renderMarkers();
+
+            renderHotspots();
+
+        }
+    );
+
+
+document
+    .getElementById("statusFilter")
+    .addEventListener(
+        "change",
+        function() {
+
+            renderMarkers();
+
+            renderHotspots();
+
+        }
+    );
+
+
+document
+    .getElementById("severityFilter")
+    .addEventListener(
+        "change",
+        function() {
+
+            renderMarkers();
+
+            renderHotspots();
+
+        }
+    );
+
+
+
+/* =====================================================
+   HOTSPOT TOGGLE
+===================================================== */
+
+document
+    .getElementById("hotspotToggle")
+    .addEventListener(
+        "click",
+        function() {
+
+
+            hotspotsEnabled =
+                !hotspotsEnabled;
+
+
+            this.classList.toggle(
+                "active",
+                hotspotsEnabled
+            );
+
+
+            this.innerText =
+                hotspotsEnabled
+                    ? "Hotspots: On"
+                    : "Hotspots: Off";
+
+
+            renderHotspots();
+
+        }
+    );
+
+document.getElementById("issueFilter").value = "all";
+document.getElementById("statusFilter").value = "all";
+document.getElementById("severityFilter").value = "all";
+
+/* =====================================================
+   INITIAL RENDER
+===================================================== */
+
+renderMarkers();
+
+renderHotspots();
+
+
+
+/* =====================================================
+   FIT MAP
+===================================================== */
+
+if (validReports.length > 0) {
+
+    const bounds =
+        validReports.map(
+            report => [
+
+                report.latitude,
+
+                report.longitude
+
+            ]
+        );
+
+
+    map.fitBounds(
+        bounds,
+        {
+            padding: [60, 60]
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

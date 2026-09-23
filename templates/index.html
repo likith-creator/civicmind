@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CivicMind AI | Smarter Cities. Better Communities.</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        /* =====================================================
+           COLORS
+        ===================================================== */
+
+        :root {
+
+            --primary: #0d47a1;
+
+            --primary-light: #eaf2ff;
+
+            --primary-border: #c9dcfa;
+
+            --dark: #172033;
+
+            --text: #3f4d61;
+
+            --muted: #68778a;
+
+            --background: #f5f7fa;
+
+            --white: #ffffff;
+
+            --border: #d9dee7;
+
+            --green: #2e7d32;
+
+            --green-bg: #e8f5e9;
+
+            --orange: #ef6c00;
+
+            --orange-bg: #fff0df;
+        }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: var(--background);
+
+            color: var(--text);
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        nav {
+
+            height: 70px;
+
+            padding: 0 6%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            background: white;
+
+            border-bottom: 1px solid var(--border);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: var(--dark);
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 185px;
+    height: auto;
+    display: block;
+}
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 24px;
+        }
+
+
+        .nav-links a {
+
+            color: #536174;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .nav-links a:hover {
+
+            color: var(--primary);
+        }
+
+
+        .nav-login {
+
+            padding: 8px 15px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 4px;
+        }
+
+
+        .nav-register {
+
+            padding: 9px 17px;
+
+            color: white !important;
+
+            background: var(--primary);
+
+            border-radius: 4px;
+        }
+
+
+        .nav-register:hover {
+
+            background: #083b88 !important;
+
+            color: white !important;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+
+            padding: 80px 7% 85px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 70px;
+
+            background: white;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .hero-content {
+
+            max-width: 650px;
+        }
+
+
+        .badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 7px 12px;
+
+            background: var(--primary-light);
+
+            border: 1px solid var(--primary-border);
+
+            color: var(--primary);
+
+            border-radius: 4px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 20px;
+        }
+
+
+        .badge-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            background: var(--green);
+
+            border-radius: 50%;
+        }
+
+
+        .hero h1 {
+
+            font-size: clamp(40px, 5vw, 62px);
+
+            line-height: 1.1;
+
+            color: var(--dark);
+
+            margin-bottom: 22px;
+
+            font-weight: 700;
+        }
+
+
+        .hero h1 span {
+
+            color: var(--primary);
+        }
+
+
+        .hero-description {
+
+            max-width: 610px;
+
+            color: var(--muted);
+
+            font-size: 18px;
+
+            line-height: 1.75;
+
+            margin-bottom: 30px;
+        }
+
+
+        .hero-buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .primary-button,
+        .secondary-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 13px 21px;
+
+            border-radius: 4px;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+
+        .primary-button {
+
+            background: var(--primary);
+
+            color: white;
+
+            border: 1px solid var(--primary);
+        }
+
+
+        .primary-button:hover {
+
+            background: #083b88;
+        }
+
+
+        .secondary-button {
+
+            color: var(--primary);
+
+            background: white;
+
+            border: 1px solid #b9c8dc;
+        }
+
+
+        .secondary-button:hover {
+
+            background: #f5f8fd;
+
+            border-color: var(--primary);
+        }
+
+
+        /* =====================================================
+           HERO VISUAL
+        ===================================================== */
+
+        .hero-visual {
+
+            width: 420px;
+
+            min-width: 360px;
+        }
+
+
+        .city-card {
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 6px;
+
+            padding: 22px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .city-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+
+        .city-header h3 {
+
+            color: var(--dark);
+
+            font-size: 17px;
+        }
+
+
+        .live {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: var(--green);
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .live-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+        }
+
+
+        /* =====================================================
+           SIMPLE MAP ILLUSTRATION
+        ===================================================== */
+
+        .map-area {
+
+            height: 210px;
+
+            border-radius: 4px;
+
+            background: #eaf2f8;
+
+            border: 1px solid #d5e0ea;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .road {
+
+            position: absolute;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            transform: rotate(-25deg);
+        }
+
+
+        .road.one {
+
+            width: 150%;
+
+            height: 13px;
+
+            top: 55px;
+
+            left: -20%;
+        }
+
+
+        .road.two {
+
+            width: 130%;
+
+            height: 11px;
+
+            top: 130px;
+
+            left: -10%;
+
+            transform: rotate(18deg);
+        }
+
+
+        .road.three {
+
+            width: 120%;
+
+            height: 8px;
+
+            top: 85px;
+
+            left: 10%;
+
+            transform: rotate(70deg);
+        }
+
+
+        .pin {
+
+            position: absolute;
+
+            width: 34px;
+
+            height: 34px;
+
+            border-radius: 50% 50% 50% 0;
+
+            background: #2463c7;
+
+            transform: rotate(-45deg);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+        }
+
+
+        .pin::after {
+
+            content: "";
+
+            width: 11px;
+
+            height: 11px;
+
+            border-radius: 50%;
+
+            background: white;
+        }
+
+
+        .pin-1 {
+
+            top: 60px;
+
+            left: 105px;
+        }
+
+
+        .pin-2 {
+
+            top: 125px;
+
+            right: 90px;
+
+            background: #2e7d32;
+        }
+
+
+        .pin-3 {
+
+            top: 95px;
+
+            left: 235px;
+
+            background: #ef6c00;
+        }
+
+
+        /* =====================================================
+           ISSUE LIST
+        ===================================================== */
+
+        .issue-list {
+
+            margin-top: 16px;
+
+            display: grid;
+
+            gap: 8px;
+        }
+
+
+        .issue {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 10px 12px;
+
+            background: #f7f9fc;
+
+            border: 1px solid #e6eaf0;
+
+            border-radius: 4px;
+        }
+
+
+        .issue-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            border-radius: 4px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: var(--primary-light);
+
+            font-size: 17px;
+        }
+
+
+        .issue-info {
+
+            flex: 1;
+        }
+
+
+        .issue-info strong {
+
+            display: block;
+
+            color: var(--dark);
+
+            font-size: 13px;
+        }
+
+
+        .issue-info small {
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .status {
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            padding: 5px 8px;
+
+            border-radius: 12px;
+
+            background: var(--green-bg);
+
+            color: var(--green);
+        }
+
+
+        /* =====================================================
+           QUICK STATS
+        ===================================================== */
+
+        .quick-stats {
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-top: 10px;
+        }
+
+
+        .quick-stat {
+
+            border: 1px solid var(--border);
+
+            background: white;
+
+            padding: 10px;
+
+            text-align: center;
+
+            border-radius: 4px;
+        }
+
+
+        .quick-stat strong {
+
+            display: block;
+
+            color: var(--primary);
+
+            font-size: 17px;
+        }
+
+
+        .quick-stat span {
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+
+        .features-section {
+
+            padding: 85px 7%;
+
+            background: var(--background);
+        }
+
+
+        .section-heading {
+
+            text-align: center;
+
+            max-width: 650px;
+
+            margin: 0 auto 45px;
+        }
+
+
+        .section-heading .eyebrow {
+
+            color: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .section-heading h2 {
+
+            font-size: 34px;
+
+            color: var(--dark);
+
+            margin-bottom: 10px;
+        }
+
+
+        .section-heading p {
+
+            color: var(--muted);
+
+            font-size: 15px;
+        }
+
+
+        .features {
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 20px;
+
+            max-width: 1150px;
+
+            margin: auto;
+        }
+
+
+        .feature-card {
+
+            padding: 28px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 6px;
+
+            background: white;
+        }
+
+
+        .feature-card:hover {
+
+            border-color: #b8cce8;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+        }
+
+
+        .feature-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 5px;
+
+            background: var(--primary-light);
+
+            border: 1px solid #d7e5fb;
+
+            font-size: 22px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .feature-card h3 {
+
+            color: var(--dark);
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .feature-card p {
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           HOW IT WORKS
+        ===================================================== */
+
+        .workflow-section {
+
+            padding: 85px 7%;
+
+            background: white;
+        }
+
+
+        .workflow {
+
+            max-width: 1050px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+        }
+
+
+        .workflow-step {
+
+            text-align: center;
+
+            padding: 20px;
+        }
+
+
+        .step-number {
+
+            width: 45px;
+
+            height: 45px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .workflow-step h3 {
+
+            color: var(--dark);
+
+            font-size: 17px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .workflow-step p {
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           CTA
+        ===================================================== */
+
+        .cta {
+
+            padding: 70px 7%;
+
+            background: #0d47a1;
+
+            text-align: center;
+        }
+
+
+        .cta h2 {
+
+            color: white;
+
+            font-size: 34px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .cta p {
+
+            color: #d9e7fb;
+
+            margin-bottom: 25px;
+
+            font-size: 15px;
+        }
+
+
+        .cta .primary-button {
+
+            background: white;
+
+            color: var(--primary);
+
+            border-color: white;
+        }
+
+
+        .cta .primary-button:hover {
+
+            background: #f2f6fc;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            background: #172033;
+
+            color: #aeb9c8;
+
+            text-align: center;
+
+            padding: 22px;
+
+            font-size: 12px;
+        }
+
+
+        footer strong {
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+
+            nav {
+
+                padding: 0 5%;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+            }
+
+
+            .nav-links a:not(.nav-login):not(.nav-register) {
+
+                display: none;
+            }
+
+
+            .hero {
+
+                flex-direction: column;
+
+                text-align: center;
+
+                padding-top: 60px;
+            }
+
+
+            .hero-description {
+
+                margin-left: auto;
+
+                margin-right: auto;
+            }
+
+
+            .hero-buttons {
+
+                justify-content: center;
+            }
+
+
+            .hero-visual {
+
+                width: 100%;
+
+                max-width: 450px;
+
+                min-width: 0;
+            }
+
+
+            .features {
+
+                grid-template-columns: 1fr;
+
+                max-width: 550px;
+            }
+
+
+            .workflow {
+
+                grid-template-columns: 1fr;
+
+                max-width: 550px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+
+            nav {
+
+                height: 64px;
+            }
+
+
+            .logo {
+
+                font-size: 18px;
+            }
+
+
+            .logo-icon {
+
+                width: 32px;
+
+                height: 32px;
+            }
+
+
+            .nav-register {
+
+                padding: 8px 12px;
+            }
+
+
+            .hero {
+
+                padding: 50px 5%;
+            }
+
+
+            .hero h1 {
+
+                font-size: 39px;
+            }
+
+
+            .hero-description {
+
+                font-size: 16px;
+            }
+
+
+            .hero-visual {
+
+                display: none;
+            }
+
+
+            .features-section,
+            .workflow-section {
+
+                padding: 65px 5%;
+            }
+
+
+            .section-heading h2 {
+
+                font-size: 28px;
+            }
+
+
+            .cta h2 {
+
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav>
+
+
+<div class="logo">
+
+    <img
+        src="{{ url_for('static', filename='images/image.png') }}"
+        alt="CivicMind"
+    >
+
+</div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/report">
+            Report Issue
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/login"
+           class="nav-login">
+
+            Login
+
+        </a>
+
+        <a href="/register"
+           class="nav-register">
+
+            Get Started
+
+        </a>
+
+    </div>
+
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+
+        <div class="badge">
+
+            <span class="badge-dot"></span>
+
+            AI-Powered Civic Intelligence
+
+        </div>
+
+
+        <h1>
+
+            Smarter Cities.<br>
+
+            <span>
+                Better Communities.
+            </span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            CivicMind AI transforms the way communities
+            report and manage civic problems. Upload an
+            image, identify issues using AI, and help
+            authorities respond faster.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+
+            <a href="/report"
+               class="primary-button">
+
+                Report an Issue &nbsp; →
+
+            </a>
+
+
+            <a href="/dashboard"
+               class="secondary-button">
+
+                View Dashboard
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         HERO VISUAL
+    ================================================== -->
+
+    <div class="hero-visual">
+
+
+        <div class="city-card">
+
+
+            <div class="city-header">
+
+
+                <h3>
+                    City Issue Intelligence
+                </h3>
+
+
+                <div class="live">
+
+                    <span class="live-dot"></span>
+
+                    LIVE
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="map-area">
+
+
+                <div class="road one"></div>
+
+                <div class="road two"></div>
+
+                <div class="road three"></div>
+
+
+                <div class="pin pin-1"></div>
+
+                <div class="pin pin-2"></div>
+
+                <div class="pin pin-3"></div>
+
+
+            </div>
+
+
+
+            <div class="issue-list">
+
+
+                <div class="issue">
+
+
+                    <div class="issue-icon">
+                        🕳️
+                    </div>
+
+
+                    <div class="issue-info">
+
+                        <strong>
+                            Pothole detected
+                        </strong>
+
+                        <small>
+                            AI confidence: 92%
+                        </small>
+
+                    </div>
+
+
+                    <span class="status">
+                        Active
+                    </span>
+
+
+                </div>
+
+
+
+                <div class="issue">
+
+
+                    <div class="issue-icon">
+                        🗑️
+                    </div>
+
+
+                    <div class="issue-info">
+
+                        <strong>
+                            Garbage detected
+                        </strong>
+
+                        <small>
+                            AI confidence: 86%
+                        </small>
+
+                    </div>
+
+
+                    <span class="status">
+                        Active
+                    </span>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="quick-stats">
+
+
+                <div class="quick-stat">
+
+                    <strong>
+                        AI
+                    </strong>
+
+                    <span>
+                        Detection
+                    </span>
+
+                </div>
+
+
+                <div class="quick-stat">
+
+                    <strong>
+                        GPS
+                    </strong>
+
+                    <span>
+                        Location
+                    </span>
+
+                </div>
+
+
+                <div class="quick-stat">
+
+                    <strong>
+                        24/7
+                    </strong>
+
+                    <span>
+                        Reporting
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section class="features-section">
+
+
+    <div class="section-heading">
+
+
+        <div class="eyebrow">
+            CivicMind Features
+        </div>
+
+
+        <h2>
+            From Report to Resolution
+        </h2>
+
+
+        <p>
+
+            A simple AI-powered workflow connecting
+            citizens with the people responsible for
+            improving their city.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="features">
+
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                📍
+            </div>
+
+
+            <h3>
+                Report Civic Issues
+            </h3>
+
+
+            <p>
+
+                Submit a photo, location and description
+                of potholes or garbage problems in your
+                community.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                🤖
+            </div>
+
+
+            <h3>
+                AI-Powered Detection
+            </h3>
+
+
+            <p>
+
+                Computer vision analyzes submitted images
+                and identifies civic issues with a
+                confidence score.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="feature-card">
+
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+
+            <h3>
+                Track Resolution
+            </h3>
+
+
+            <p>
+
+                Municipal authorities can monitor
+                complaints, identify duplicate reports
+                and track progress.
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section class="workflow-section">
+
+
+    <div class="section-heading">
+
+
+        <div class="eyebrow">
+            Simple Workflow
+        </div>
+
+
+        <h2>
+            How CivicMind Works
+        </h2>
+
+
+        <p>
+
+            Three simple steps connect a citizen's
+            complaint with municipal action.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="workflow">
+
+
+        <div class="workflow-step">
+
+
+            <div class="step-number">
+                1
+            </div>
+
+
+            <h3>
+                Citizen Reports
+            </h3>
+
+
+            <p>
+
+                A citizen submits an image,
+                description and location of
+                a civic issue.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="workflow-step">
+
+
+            <div class="step-number">
+                2
+            </div>
+
+
+            <h3>
+                AI Analyzes
+            </h3>
+
+
+            <p>
+
+                AI detects the issue, provides
+                a confidence score and helps
+                identify duplicate complaints.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="workflow-step">
+
+
+            <div class="step-number">
+                3
+            </div>
+
+
+            <h3>
+                Municipality Responds
+            </h3>
+
+
+            <p>
+
+                Municipal authorities review
+                reports, manage the workflow
+                and record completed work.
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="cta">
+
+
+    <h2>
+        See a problem? Report it.
+    </h2>
+
+
+    <p>
+
+        Your report can help make your
+        community safer and cleaner.
+
+    </p>
+
+
+    <a href="/report"
+       class="primary-button">
+
+        Report an Issue &nbsp; →
+
+    </a>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <strong>
+        CivicMind AI
+    </strong>
+
+    &nbsp; • &nbsp;
+
+    AI-powered civic issue reporting
+    and management
+
+</footer>
+
+
+</body>
+
+</html>

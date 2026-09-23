@@ -1,0 +1,18 @@
+.env
+venv/
+.venv/
+
+dataset/
+garbage dataset/
+
+runs/
+yolov8n.pt
+models/yolov8n.pt
+
+static/uploads/
+
+__pycache__/
+*.pyc
+
+*.db-wal
+*.db-shm

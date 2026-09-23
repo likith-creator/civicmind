@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | CivicMind AI</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           COLORS
+        ===================================================== */
+
+        :root {
+
+            --primary: #0d47a1;
+            --primary-light: #eaf2ff;
+
+            --navy: #172033;
+
+            --text: #333;
+            --muted: #6b7280;
+
+            --background: #f5f7fa;
+
+            --white: #ffffff;
+
+            --border: #d9dee7;
+
+            --green: #2e7d32;
+            --green-bg: #e8f5e9;
+
+            --yellow: #9a6700;
+            --yellow-bg: #fff4cc;
+
+            --orange: #ef6c00;
+            --orange-bg: #fff0df;
+
+            --red: #c62828;
+            --red-bg: #fdeaea;
+        }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: var(--background);
+
+            color: var(--text);
+        }
+
+
+        /* =====================================================
+           APP
+        ===================================================== */
+
+        .app {
+
+            min-height: 100vh;
+
+            display: flex;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            width: 255px;
+
+            min-height: 100vh;
+
+            background: white;
+
+            border-right: 1px solid var(--border);
+
+            padding: 28px 17px;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 5px 8px 30px;
+        }
+
+
+        .brand-icon {
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 7px;
+
+            background: #1976d2;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: bold;
+        }
+
+
+        .brand-name {
+
+            color: #172033;
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-name span {
+
+            color: var(--primary);
+        }
+
+
+        /* =====================================================
+           PORTAL LABEL
+        ===================================================== */
+
+        .portal-label {
+
+            padding: 0 9px;
+
+            color: #8793a5;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* =====================================================
+           NAV
+        ===================================================== */
+
+        .nav-menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+        }
+
+
+        .nav-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px 13px;
+
+            border-radius: 6px;
+
+            color: #526174;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            transition: 0.15s;
+        }
+
+
+        .nav-item:hover {
+
+            background: #f1f5f9;
+
+            color: var(--primary);
+        }
+
+
+        .nav-item.active {
+
+            background: #eaf2ff;
+
+            color: #1554ad;
+        }
+
+
+        .nav-icon {
+
+            width: 24px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+        }
+
+
+        .divider {
+
+            height: 1px;
+
+            background: var(--border);
+
+            margin: 15px 5px;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 255px;
+
+            width: calc(100% - 255px);
+
+            padding: 34px 40px 50px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .title h1 {
+
+            color: #172033;
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+
+        .title p {
+
+            color: #607086;
+
+            font-size: 15px;
+        }
+
+
+        .new-report {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 12px 18px;
+
+            background: var(--primary);
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .new-report:hover {
+
+            background: #083b88;
+        }
+
+
+        /* =====================================================
+           TOOLBAR
+        ===================================================== */
+
+        .toolbar {
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 6px;
+
+            padding: 16px;
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+
+        .search {
+
+            flex: 1;
+
+            min-width: 200px;
+
+            padding: 12px 14px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 4px;
+
+            outline: none;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            color: var(--text);
+        }
+
+
+        .search:focus {
+
+            border-color: #1554ad;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(21, 84, 173, 0.08);
+        }
+
+
+        .filter {
+
+            padding: 12px 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 4px;
+
+            background: white;
+
+            color: #334155;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+
+        .filter:focus {
+
+            border-color: #1554ad;
+        }
+
+
+        /* =====================================================
+           REPORT COUNT
+        ===================================================== */
+
+        .report-count {
+
+            color: #68778a;
+
+            font-size: 13px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .report-count strong {
+
+            color: #334155;
+        }
+
+
+        /* =====================================================
+           TABLE CARD
+        ===================================================== */
+
+        .table-card {
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 6px;
+
+            overflow: hidden;
+        }
+
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            min-width: 1250px;
+
+            border-collapse: collapse;
+        }
+
+
+        /* =====================================================
+           TABLE HEADER
+        ===================================================== */
+
+        thead {
+
+            background: #f7f9fc;
+        }
+
+
+        th {
+
+            padding: 14px 16px;
+
+            text-align: left;
+
+            color: #53657c;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+            border-bottom: 1px solid var(--border);
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           TABLE CELLS
+        ===================================================== */
+
+        td {
+
+            padding: 16px;
+
+            border-bottom: 1px solid #edf0f4;
+
+            vertical-align: middle;
+
+            font-size: 13px;
+        }
+
+
+        tbody tr:hover {
+
+            background: #fafcff;
+        }
+
+
+        tbody tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        /* =====================================================
+           REPORT ID
+        ===================================================== */
+
+        .report-id {
+
+            color: #1554ad;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           USER
+        ===================================================== */
+
+        .user-name {
+
+            color: #172033;
+
+            font-weight: 700;
+
+            margin-bottom: 3px;
+        }
+
+
+        .user-email {
+
+            color: #718096;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           ISSUE
+        ===================================================== */
+
+        .issue-cell {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            white-space: nowrap;
+        }
+
+
+        .issue-icon {
+
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eef4ff;
+
+            border: 1px solid #dbe7fb;
+
+            border-radius: 5px;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           LOCATION
+        ===================================================== */
+
+        .location {
+
+            max-width: 210px;
+
+            color: #455468;
+
+            line-height: 1.45;
+        }
+
+
+        /* =====================================================
+           AI DETECTION
+        ===================================================== */
+
+        .ai-detection {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            min-width: 170px;
+        }
+
+
+        .detection-image {
+
+            width: 62px;
+
+            height: 47px;
+
+            object-fit: cover;
+
+            border-radius: 4px;
+
+            border: 1px solid var(--border);
+        }
+
+
+        .ai-name {
+
+            color: #172033;
+
+            font-weight: 700;
+
+            font-size: 12px;
+        }
+
+
+        .ai-label {
+
+            color: #778398;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+           CONFIDENCE
+        ===================================================== */
+
+        .confidence-wrap {
+
+            min-width: 85px;
+        }
+
+
+        .confidence-value {
+
+            color: #172033;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .confidence-bar {
+
+            width: 75px;
+
+            height: 5px;
+
+            background: #e2e7ee;
+
+            border-radius: 3px;
+
+            overflow: hidden;
+
+            margin-top: 5px;
+        }
+
+
+        .confidence-fill {
+
+            height: 100%;
+
+            background: #2864d7;
+
+            border-radius: 3px;
+        }
+
+
+        /* =====================================================
+           SEVERITY
+        ===================================================== */
+
+        .severity-score {
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .severity-level {
+
+            display: inline-block;
+
+            margin-top: 5px;
+
+            padding: 4px 8px;
+
+            border-radius: 12px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+        }
+
+
+        .severity-critical {
+
+            color: var(--red);
+        }
+
+
+        .severity-critical-bg {
+
+            background: var(--red-bg);
+
+            color: var(--red);
+        }
+
+
+        .severity-high {
+
+            color: var(--orange);
+        }
+
+
+        .severity-high-bg {
+
+            background: var(--orange-bg);
+
+            color: var(--orange);
+        }
+
+
+        .severity-medium {
+
+            color: var(--yellow);
+        }
+
+
+        .severity-medium-bg {
+
+            background: var(--yellow-bg);
+
+            color: var(--yellow);
+        }
+
+
+        .severity-low {
+
+            color: var(--green);
+        }
+
+
+        .severity-low-bg {
+
+            background: var(--green-bg);
+
+            color: var(--green);
+        }
+
+
+        /* =====================================================
+           DUPLICATE
+        ===================================================== */
+
+        .duplicate-warning {
+
+            color: var(--red);
+
+            font-weight: 700;
+
+            font-size: 11px;
+        }
+
+
+        .duplicate-details {
+
+            color: #718096;
+
+            font-size: 10px;
+
+            margin-top: 4px;
+
+            line-height: 1.5;
+        }
+
+
+        .no-duplicate {
+
+            color: var(--green);
+
+            font-weight: 700;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 12px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .pending {
+
+            background: var(--yellow-bg);
+
+            color: #8a5a00;
+        }
+
+
+        .under-review {
+
+            background: #e7f0ff;
+
+            color: #1554ad;
+        }
+
+
+        .in-progress {
+
+            background: var(--orange-bg);
+
+            color: #c45a00;
+        }
+
+
+        .work-completed {
+
+            background: var(--green-bg);
+
+            color: #28732c;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 80px 20px;
+
+            color: var(--muted);
+        }
+
+
+        .empty-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty h2 {
+
+            color: #172033;
+
+            margin-bottom: 5px;
+
+            font-size: 18px;
+        }
+
+
+        .empty p {
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+
+                width: 72px;
+
+                padding: 20px 10px;
+            }
+
+
+            .brand {
+
+                justify-content: center;
+
+                padding-left: 0;
+
+                padding-right: 0;
+            }
+
+
+            .brand-name,
+            .portal-label,
+            .nav-text {
+
+                display: none;
+            }
+
+
+            .nav-item {
+
+                justify-content: center;
+            }
+
+
+            .main {
+
+                margin-left: 72px;
+
+                width: calc(100% - 72px);
+
+                padding: 25px 20px;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .topbar {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+
+            .toolbar {
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .search {
+
+                min-width: 0;
+
+                width: 100%;
+            }
+
+
+            .filter {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <div class="brand-name">
+                Civic<span>Mind</span>
+            </div>
+
+        </div>
+
+
+        <div class="portal-label">
+            Municipal Portal
+        </div>
+
+
+        <nav class="nav-menu">
+
+
+            <a href="/dashboard"
+               class="nav-item">
+
+                <span class="nav-icon">🏠</span>
+
+                <span class="nav-text">
+                    Overview
+                </span>
+
+            </a>
+
+
+            <a href="/dashboard/map"
+               class="nav-item">
+
+                <span class="nav-icon">🗺️</span>
+
+                <span class="nav-text">
+                    Issue Map
+                </span>
+
+            </a>
+
+
+            <a href="/dashboard/reports"
+               class="nav-item active">
+
+                <span class="nav-icon">📋</span>
+
+                <span class="nav-text">
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="/dashboard/analytics"
+               class="nav-item">
+
+                <span class="nav-icon">📊</span>
+
+                <span class="nav-text">
+                    Analytics
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+
+            <a href="/"
+               class="nav-item">
+
+                <span class="nav-icon">🌐</span>
+
+                <span class="nav-text">
+                    Public Website
+                </span>
+
+            </a>
+
+
+            <a href="/report"
+               class="nav-item">
+
+                <span class="nav-icon">➕</span>
+
+                <span class="nav-text">
+                    New Report
+                </span>
+
+            </a>
+
+
+            <a href="/logout"
+               class="nav-item">
+
+                <span class="nav-icon">↪</span>
+
+                <span class="nav-text">
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <div class="topbar">
+
+
+            <div class="title">
+
+                <h1>
+                    Civic Reports
+                </h1>
+
+                <p>
+                    Detailed AI analysis and municipal issue management.
+                </p>
+
+            </div>
+
+
+            <a href="/report"
+               class="new-report">
+
+                + New Report
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FILTERS
+        ================================================== -->
+
+        <div class="toolbar">
+
+            <input
+                type="text"
+                id="searchInput"
+                class="search"
+                placeholder="Search reports, locations, users or issues..."
+            >
+
+
+            <select id="issueFilter"
+                    class="filter">
+
+                <option value="all">
+                    All Issues
+                </option>
+
+                <option value="pothole">
+                    Pothole
+                </option>
+
+                <option value="garbage">
+                    Garbage
+                </option>
+
+            </select>
+
+
+            <select id="statusFilter"
+                    class="filter">
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Under Review">
+                    Under Review
+                </option>
+
+                <option value="In Progress">
+                    In Progress
+                </option>
+
+                <option value="Work Completed">
+                    Work Completed
+                </option>
+
+            </select>
+
+
+            <select id="severityFilter"
+                    class="filter">
+
+                <option value="all">
+                    All Severity
+                </option>
+
+                <option value="Critical">
+                    Critical
+                </option>
+
+                <option value="High">
+                    High
+                </option>
+
+                <option value="Medium">
+                    Medium
+                </option>
+
+                <option value="Low">
+                    Low
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        {% if reports %}
+
+
+        <div class="report-count">
+
+            Showing
+            <strong id="visibleCount">
+                {{ reports|length }}
+            </strong>
+            reports
+
+        </div>
+
+
+        <div class="table-card">
+
+
+            <div class="table-wrapper">
+
+
+                <table id="reportsTable">
+
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Report
+                        </th>
+
+                        <th>
+                            Reporter
+                        </th>
+
+                        <th>
+                            Issue
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            AI Detection
+                        </th>
+
+                        <th>
+                            Confidence
+                        </th>
+
+                        <th>
+                            Severity
+                        </th>
+
+                        <th>
+                            Duplicate
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for report in reports %}
+
+
+                    <tr
+                        data-issue="{{ report['issue']|lower }}"
+                        data-status="{{ report['status'] }}"
+                        data-severity="{{ report['severity_level'] or '' }}"
+                    >
+
+
+                        <!-- REPORT -->
+
+                        <td>
+
+                            <span class="report-id">
+                                #{{ report["id"] }}
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- REPORTER -->
+
+                        <td>
+
+                            <div class="user-name">
+                                {{ report["name"] }}
+                            </div>
+
+                            <div class="user-email">
+                                {{ report["email"] }}
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- ISSUE -->
+
+                        <td>
+
+                            <div class="issue-cell">
+
+                                <div class="issue-icon">
+
+                                    {% if report["issue"]|lower == "garbage" %}
+
+                                        🗑️
+
+                                    {% else %}
+
+                                        🕳️
+
+                                    {% endif %}
+
+                                </div>
+
+                                {{ report["issue"] }}
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- LOCATION -->
+
+                        <td>
+
+                            <div class="location">
+
+                                {{ report["location"] }}
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- AI -->
+
+                        <td>
+
+                            <div class="ai-detection">
+
+
+                                {% if report["detected_image"] %}
+
+                                <img
+                                    class="detection-image"
+                                    src="{{ url_for(
+                                        'static',
+                                        filename='detections/' + report['detected_image']
+                                    ) }}"
+                                    alt="AI detection"
+                                >
+
+                                {% endif %}
+
+
+                                <div>
+
+                                    <div class="ai-name">
+
+                                        {{ report["detected_issue"] or "Not detected" }}
+
+                                    </div>
+
+                                    <div class="ai-label">
+                                        YOLO Analysis
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- CONFIDENCE -->
+
+                        <td>
+
+                            {% if report["confidence"] is not none %}
+
+                            <div class="confidence-wrap">
+
+                                <div class="confidence-value">
+
+                                    {{ "%.1f"|format(
+                                        report["confidence"] * 100
+                                    ) }}%
+
+                                </div>
+
+
+                                <div class="confidence-bar">
+
+                                    <div
+                                        class="confidence-fill"
+                                        style="width: {{ report['confidence'] * 100 }}%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                            {% else %}
+
+                            <span>
+                                N/A
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- SEVERITY -->
+
+                        <td>
+
+                            {% if report["severity_score"] is not none %}
+
+
+                                {% if report["severity_level"] == "Critical" %}
+
+                                    <div class="severity-score severity-critical">
+
+                                {% elif report["severity_level"] == "High" %}
+
+                                    <div class="severity-score severity-high">
+
+                                {% elif report["severity_level"] == "Medium" %}
+
+                                    <div class="severity-score severity-medium">
+
+                                {% else %}
+
+                                    <div class="severity-score severity-low">
+
+                                {% endif %}
+
+
+                                    {{ "%.1f"|format(
+                                        report["severity_score"]
+                                    ) }}/10
+
+
+                                </div>
+
+
+                                {% if report["severity_level"] == "Critical" %}
+
+                                    <span class="severity-level severity-critical-bg">
+
+                                {% elif report["severity_level"] == "High" %}
+
+                                    <span class="severity-level severity-high-bg">
+
+                                {% elif report["severity_level"] == "Medium" %}
+
+                                    <span class="severity-level severity-medium-bg">
+
+                                {% else %}
+
+                                    <span class="severity-level severity-low-bg">
+
+                                {% endif %}
+
+                                    {{ report["severity_level"] or "N/A" }}
+
+                                </span>
+
+
+                            {% else %}
+
+                                <span>
+                                    N/A
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- DUPLICATE -->
+
+                        <td>
+
+
+                            {% if report["duplicate_of"] %}
+
+
+                                <div class="duplicate-warning">
+
+                                    ⚠ Possible Duplicate
+
+                                </div>
+
+
+                                <div class="duplicate-details">
+
+                                    Report #{{ report["duplicate_of"] }}
+
+                                    <br>
+
+                                    {{ "%.1f"|format(
+                                        report["duplicate_score"] * 100
+                                    ) }}% similarity
+
+                                    <br>
+
+                                    📍
+                                    {{ area_counts[report["id"]] }}
+                                    nearby reports
+
+                                </div>
+
+
+                            {% else %}
+
+
+                                <div class="no-duplicate">
+
+                                    ✓ No Duplicate
+
+                                </div>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+
+                            {% if report["status"] == "Pending" %}
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+                            {% elif report["status"] == "Under Review" %}
+
+                                <span class="status under-review">
+                                    Under Review
+                                </span>
+
+                            {% elif report["status"] == "In Progress" %}
+
+                                <span class="status in-progress">
+                                    In Progress
+                                </span>
+
+                            {% elif report["status"] == "Work Completed" %}
+
+                                <span class="status work-completed">
+                                    Work Completed
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="table-card">
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                <h2>
+                    No Reports Yet
+                </h2>
+
+                <p>
+                    Civic reports will appear here once citizens submit them.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* =====================================================
+       FILTERING
+    ===================================================== */
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    const issueFilter =
+        document.getElementById("issueFilter");
+
+
+    const statusFilter =
+        document.getElementById("statusFilter");
+
+
+    const severityFilter =
+        document.getElementById("severityFilter");
+
+
+    const rows =
+        document.querySelectorAll(
+            "#reportsTable tbody tr"
+        );
+
+
+    const visibleCount =
+        document.getElementById("visibleCount");
+
+
+    function filterReports() {
+
+
+        const search =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        const issue =
+            issueFilter.value
+                .toLowerCase();
+
+
+        const status =
+            statusFilter.value;
+
+
+        const severity =
+            severityFilter.value;
+
+
+        let count = 0;
+
+
+        rows.forEach(row => {
+
+
+            const text =
+                row.innerText.toLowerCase();
+
+
+            const rowIssue =
+                row.dataset.issue;
+
+
+            const rowStatus =
+                row.dataset.status;
+
+
+            const rowSeverity =
+                row.dataset.severity;
+
+
+            const matchesSearch =
+                text.includes(search);
+
+
+            const matchesIssue =
+                issue === "all"
+                || rowIssue === issue;
+
+
+            const matchesStatus =
+                status === "all"
+                || rowStatus === status;
+
+
+            const matchesSeverity =
+                severity === "all"
+                || rowSeverity === severity;
+
+
+            if (
+                matchesSearch &&
+                matchesIssue &&
+                matchesStatus &&
+                matchesSeverity
+            ) {
+
+                row.style.display = "";
+
+                count++;
+
+            }
+
+            else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visibleCount) {
+
+            visibleCount.textContent = count;
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterReports
+    );
+
+
+    issueFilter.addEventListener(
+        "change",
+        filterReports
+    );
+
+
+    statusFilter.addEventListener(
+        "change",
+        filterReports
+    );
+
+
+    severityFilter.addEventListener(
+        "change",
+        filterReports
+    );
+
+</script>
+
+
+</body>
+
+</html>
